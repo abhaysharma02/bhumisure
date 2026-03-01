@@ -1,0 +1,123 @@
+.gov-chatbot-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.gov-chatbot-btn {
+    background-color: var(--gov-orange);
+    color: var(--gov-white);
+    border: none;
+    border-radius: 30px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.gov-chatbot-btn:hover {
+    transform: translateY(-2px);
+    background-color: #e68a00;
+}
+
+.gov-chatbot-window {
+    width: 320px;
+    height: 400px;
+    background-color: var(--gov-white);
+    border: 1px solid var(--gov-gray-border);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatbot-header {
+    background-color: var(--gov-blue);
+    color: var(--gov-white);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-header h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--gov-white);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #f8fafc;
+}
+
+.msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.bot-msg {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border-bottom-left-radius: 2px;
+}
+
+.bot-msg ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
+.chatbot-input {
+    display: flex;
+    border-top: 1px solid var(--gov-gray-border);
+    padding: 10px;
+    background-color: var(--gov-white);
+}
+
+.chatbot-input input {
+    flex: 1;
+    border: 1px solid var(--gov-gray-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    outline: none;
+}
+
+.chatbot-input input:focus {
+    border-color: var(--gov-blue);
+}
+
+.chatbot-input button {
+    margin-left: 8px;
+    background-color: var(--gov-blue);
+    color: var(--gov-white);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.chatbot-input button:hover {
+    background-color: var(--gov-blue-light);
+}

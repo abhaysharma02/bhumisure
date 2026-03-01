@@ -1,0 +1,350 @@
+/* ===== TWO COLUMN LAYOUT ===== */
+.gov-calculator-layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .gov-calculator-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== CARD STYLES ===== */
+.gov-card-title {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: var(--gov-blue);
+  font-weight: 700;
+}
+
+.gov-card-subtitle {
+  margin: 0 0 24px 0;
+  font-size: 14px;
+  color: var(--gov-gray-text);
+}
+
+/* ===== STEP BY STEP UI ===== */
+.gov-step {
+  border: 1px solid var(--gov-gray-border);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  background-color: #fafbfc;
+  overflow: hidden;
+}
+
+.gov-step-header {
+  background-color: #f1f5f9;
+  border-bottom: 1px solid var(--gov-gray-border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gov-step-num {
+  background-color: var(--gov-blue);
+  color: var(--gov-white);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.gov-step-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--gov-blue);
+}
+
+.gov-step-body {
+  padding: 20px;
+  background-color: var(--gov-white);
+}
+
+/* ===== FORM ELEMENTS ===== */
+.gov-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.gov-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.gov-form-group label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gov-black);
+  margin-bottom: 6px;
+}
+
+.gov-form-group .req {
+  color: #ef4444;
+}
+
+.gov-form-group input,
+.gov-form-group select {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  background: var(--gov-white);
+  outline: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.gov-form-group input:focus,
+.gov-form-group select:focus {
+  border-color: var(--gov-blue);
+  box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
+}
+
+.gov-help-text {
+  font-size: 11px;
+  color: var(--gov-gray-text);
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* ===== BUTTONS ===== */
+.gov-form-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.gov-btn {
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  border: none;
+}
+
+.gov-btn-primary {
+  background-color: var(--gov-blue);
+  color: var(--gov-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.gov-btn-primary:hover {
+  background-color: var(--gov-blue-light);
+}
+
+.gov-btn-primary:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.gov-btn-secondary {
+  background-color: #e5e7eb;
+  color: var(--gov-black);
+}
+
+.gov-btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+.gov-btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--gov-blue);
+  color: var(--gov-blue);
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.gov-btn-outline:hover {
+  background-color: #f0f4f8;
+}
+
+/* ===== ALERT / ERROR ===== */
+.gov-alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.gov-alert-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+/* ===== RESULTS PANEL ===== */
+.result-box {
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+}
+
+.result-header {
+  border-bottom: 2px solid var(--gov-blue);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.result-header h3 {
+  margin: 0 0 4px 0;
+  color: var(--gov-blue);
+  font-size: 18px;
+}
+
+.result-header p {
+  margin: 0;
+  color: var(--gov-gray-text);
+  font-size: 13px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.result-item {
+  background: var(--gov-white);
+  padding: 16px;
+  border: 1px solid var(--gov-gray-border);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-label {
+  font-size: 12px;
+  color: var(--gov-gray-text);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.result-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gov-black);
+}
+
+.result-value.highlight {
+  color: var(--gov-blue);
+}
+
+.result-breakdown {
+  background: var(--gov-white);
+  border: 1px solid var(--gov-gray-border);
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.breakdown-row:last-child {
+  border-bottom: none;
+}
+
+.result-total {
+  background-color: var(--gov-blue);
+  color: var(--gov-white);
+  padding: 20px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.result-total span:first-child {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.result-total .total-amount {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ===== MAP SECTION ===== */
+.gov-map-header {
+  background-color: var(--gov-black);
+  color: var(--gov-white);
+  padding: 16px 20px;
+}
+
+.gov-map-header h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+}
+
+.gov-map-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.gov-map-container {
+  height: 400px;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+/* ===== HELP PANEL ===== */
+.gov-help-panel {
+  background-color: #fffbeb;
+  /* Light yellow */
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.gov-help-panel h4 {
+  margin: 0 0 12px 0;
+  color: #92400e;
+  font-size: 16px;
+}
+
+.help-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.help-list li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.help-list a {
+  color: var(--gov-blue);
+  text-decoration: none;
+}
+
+.help-list a:hover {
+  text-decoration: underline;
+}

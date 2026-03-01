@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+}
+
+.header {
+  background: #0b3a5a;
+  color: white;
+  padding: 14px 20px;
+  font-weight: bold;
+}
+
+.info-strip {
+  background: #fff3cd;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.card {
+  background: white;
+  width: 900px;
+  padding: 25px;
+  border-radius: 4px;
+}
+
+.card h3 {
+  margin: 0 0 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.calc-btn {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px;
+  background: #0b3a5a;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.footer {
+  text-align: center;
+  padding: 12px;
+  background: #e6e6e6;
+  font-size: 13px;
+}
