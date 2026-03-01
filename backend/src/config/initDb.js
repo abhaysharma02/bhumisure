@@ -46,6 +46,22 @@ const initDatabase = async () => {
       );
     `);
 
+    // Guideline Rates Table (for CSV import)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS guideline_rates (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        city VARCHAR(100),
+        ward VARCHAR(100),
+        location VARCHAR(255),
+        residential_rate INTEGER,
+        commercial_rate INTEGER,
+        shop_rate INTEGER,
+        office_rate INTEGER,
+        agriculture_rate INTEGER,
+        year VARCHAR(20)
+      );
+    `);
+
     // Seed Sample Data if Wards table is empty
     const wResult = await client.query("SELECT COUNT(*) as cnt FROM wards");
     if (wResult.rows[0].cnt === 0) {

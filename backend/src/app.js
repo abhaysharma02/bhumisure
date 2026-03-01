@@ -13,6 +13,7 @@ connectDB();
 
 app.use("/api/stamp-duty", stampDutyRoutes);
 app.use("/api", require("./routes/location.routes"));
+app.use("/api", require("./routes/guideline.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
 
 app.get("/", (req, res) => {
