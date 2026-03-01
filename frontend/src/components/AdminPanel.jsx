@@ -39,7 +39,8 @@ export default function AdminPanel() {
                 setMessage(`Error: ${data.message} ${data.error ? `- ${data.error}` : ''}`);
             }
         } catch (err) {
-            setMessage("Error connecting to server. Make sure the backend is running.");
+            console.error("Upload error:", err);
+            setMessage(`Network Error fetching from [${API}]: ${err.message}. Make sure the backend is running and URL is correct.`);
         } finally {
             setLoading(false);
         }

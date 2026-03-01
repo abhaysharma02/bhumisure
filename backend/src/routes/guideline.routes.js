@@ -5,8 +5,14 @@ const csv = require("csv-parser");
 const fs = require("fs");
 const { pool } = require("../config/db");
 
+// Ensure uploads directory exists for multer on production servers
+const uploadDir = "uploads/";
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 // Configure multer to temporarily store uploaded files
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: uploadDir });
 
 router.post("/import-guidelines", upload.single("file"), async (req, res) => {
     if (!req.file) {
