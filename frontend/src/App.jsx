@@ -3,6 +3,7 @@ import StampDutyForm from "./components/StampDutyForm";
 import CompareTool from "./components/CompareTool";
 import AdminPanel from "./components/AdminPanel";
 import Chatbot from "./components/Chatbot";
+import GuidelineCheck from "./components/GuidelineCheck";
 
 function App() {
   const [view, setView] = useState("calculator");
@@ -64,7 +65,7 @@ function App() {
       <main className="gov-main-content flex-1 w-full max-w-7xl mx-auto px-4 py-8 overflow-x-hidden">
         {view === "calculator" && <StampDutyForm />}
         {view === "compare" && <CompareTool />}
-        {view === "guideline" && <div className="gov-card"><h3>Guideline Rates</h3><p>Guideline search coming soon...</p></div>}
+        {view === "guideline" && <GuidelineCheck />}
         {view === "admin" && <AdminPanel />}
         {view === "help" && <div className="gov-card"><h3>Help Center</h3><p>Information on how to use the calculator...</p></div>}
         {view === "about" && <div className="gov-card"><h3>About BHUMI SURE</h3><p>Not an official government website. This is a public utility tool.</p></div>}

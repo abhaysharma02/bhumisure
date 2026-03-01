@@ -16,6 +16,7 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
     const results = [];
     const BATCH_SIZE = 500;
     let insertedRows = 0;
+    let skippedRows = 0;
 
     // Create a robust function to parse integers, handling empty or invalid data
     const parseRate = (val) => {
@@ -35,8 +36,10 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
             }
 
             // Ignore empty rows checking city/ward/location
-            if (!row.city || !row.ward || !row.location) return;
-            if (row.city.trim() === '' || row.ward.trim() === '' || row.location.trim() === '') return;
+            if (!row.city || !row.ward || !row.location || row.city.trim() === '' || row.ward.trim() === '' || row.location.trim() === '') {
+                skippedRows++;
+                return;
+            }
 
             results.push({
                 city: row.city.trim(),
@@ -94,7 +97,8 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
                 return res.status(200).json({
                     success: true,
                     message: "CSV imported successfully.",
-                    rows_inserted: insertedRows
+                    rows_inserted: insertedRows,
+                    rows_skipped: skippedRows
                 });
             } catch (err) {
                 console.error("CSV Import Error:", err);
@@ -108,6 +112,82 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
             fs.unlinkSync(req.file.path); // Cleanup file on parse error
             return res.status(500).json({ success: false, message: "Error parsing CSV file.", error: error.message });
         });
+});
+
+// GET first 50 rows
+router.get("/guidelines", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM guideline_rates LIMIT 50");
+        res.json({ success: true, data: result.rows });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// GET Search API
+router.get("/guideline", async (req, res) => {
+    const { location } = req.query;
+    if (!location) return res.status(400).json({ success: false, message: "Location parameter is required." });
+
+    try {
+        const query = `
+            SELECT * FROM guideline_rates 
+            WHERE location LIKE $1 
+            LIMIT 50
+        `;
+        const values = [`%${location}%`]; // Partial case-insensitive search (ILIKE equivalent in sqlite mock is handled automatically via db.js logic)
+        const result = await pool.query(query, values);
+
+        res.json({ success: true, data: result.rows });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// POST Calculate API
+router.post("/calculate", async (req, res) => {
+    const { location, area, type } = req.body;
+
+    if (!location || !area || !type) {
+        return res.status(400).json({ success: false, message: "Missing required fields: location, area, or type." });
+    }
+
+    try {
+        // Fetch exact location rates
+        const result = await pool.query("SELECT * FROM guideline_rates WHERE location = $1 LIMIT 1", [location]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: "Location not found." });
+        }
+
+        const rateData = result.rows[0];
+        let rate = 0;
+
+        switch (type.toLowerCase()) {
+            case "residential": rate = rateData.residential_rate; break;
+            case "commercial": rate = rateData.commercial_rate; break;
+            case "shop": rate = rateData.shop_rate; break;
+            case "office": rate = rateData.office_rate; break;
+            case "agriculture": rate = rateData.agriculture_rate; break;
+            default: return res.status(400).json({ success: false, message: "Invalid type." });
+        }
+
+        if (rate === null || rate === undefined) {
+            return res.status(400).json({ success: false, message: "Rate not available for this type." });
+        }
+
+        const total_price = rate * parseFloat(area);
+
+        res.json({
+            success: true,
+            data: {
+                rate,
+                total_price
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
 });
 
 module.exports = router;
