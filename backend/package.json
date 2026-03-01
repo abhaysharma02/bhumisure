@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "postinstall": "npm rebuild sqlite3"
   },
   "keywords": [],
   "author": "",
