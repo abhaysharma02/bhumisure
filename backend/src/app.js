@@ -20,4 +20,12 @@ app.get("/", (req, res) => {
   res.json({ status: "BhumiSure Backend Running (Express + PG)" });
 });
 
+// Start the server if this file is run directly
+if (require.main === module) {
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ BhumiSure API is running on port ${PORT}`);
+  });
+}
+
 module.exports = app;
