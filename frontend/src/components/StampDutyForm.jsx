@@ -129,22 +129,22 @@ export default function StampDuty() {
   }
 
   return (
-    <div className="gov-calculator-layout">
+    <div className="gov-calculator-layout grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-start w-full">
       {/* LEFT COLUMN: FORM */}
-      <div className="gov-calc-form-container">
+      <div className="gov-calc-form-container w-full">
         <div className="gov-card">
-          <h2 className="gov-card-title">Stamp Duty Calculator Form</h2>
-          <p className="gov-card-subtitle">Fill the details below accurately to calculate duty and registration fees.</p>
+          <h2 className="gov-card-title text-xl md:text-2xl">Stamp Duty Calculator Form</h2>
+          <p className="gov-card-subtitle text-sm">Fill the details below accurately to calculate duty and registration fees.</p>
 
           {error && <div className="gov-alert gov-alert-error">⚠ {error}</div>}
 
           {/* STEP 1 */}
           <div className="gov-step">
             <div className="gov-step-header">
-              <span className="gov-step-num">1</span>
-              <h3>Location Details</h3>
+              <span className="gov-step-num flex-shrink-0">1</span>
+              <h3 className="text-base md:text-lg">Location Details</h3>
             </div>
-            <div className="gov-step-body gov-grid-2">
+            <div className="gov-step-body grid grid-cols-1 md:grid-cols-2 gap-5 p-4 md:p-5 bg-white">
               <div className="gov-form-group">
                 <label>Ward / Tehsil <span className="req">*</span></label>
                 <select name="ward_id" value={form.ward_id} onChange={handleChange}>
@@ -175,10 +175,10 @@ export default function StampDuty() {
           {/* STEP 2 */}
           <div className="gov-step">
             <div className="gov-step-header">
-              <span className="gov-step-num">2</span>
-              <h3>Property Details</h3>
+              <span className="gov-step-num flex-shrink-0">2</span>
+              <h3 className="text-base md:text-lg">Property Details</h3>
             </div>
-            <div className="gov-step-body gov-grid-2">
+            <div className="gov-step-body grid grid-cols-1 md:grid-cols-2 gap-5 p-4 md:p-5 bg-white">
               <div className="gov-form-group">
                 <label>Property Type <span className="req">*</span></label>
                 <select name="propertyType" value={form.propertyType} onChange={handleChange}>
@@ -206,11 +206,11 @@ export default function StampDuty() {
           {/* STEP 3 */}
           <div className="gov-step">
             <div className="gov-step-header">
-              <span className="gov-step-num">3</span>
-              <h3>Measurements</h3>
+              <span className="gov-step-num flex-shrink-0">3</span>
+              <h3 className="text-base md:text-lg">Measurements</h3>
             </div>
-            <div className="gov-step-body">
-              <div className="gov-form-group" style={{ maxWidth: '50%' }}>
+            <div className="gov-step-body p-4 md:p-5 bg-white">
+              <div className="gov-form-group w-full md:w-1/2">
                 <label>Total Area <span className="req">*</span></label>
                 <input
                   type="number"
@@ -224,11 +224,11 @@ export default function StampDuty() {
             </div>
           </div>
 
-          <div className="gov-form-actions">
-            <button className="gov-btn gov-btn-primary" onClick={calculate} disabled={loading}>
+          <div className="gov-form-actions flex flex-col sm:flex-row gap-3 mt-6">
+            <button className="gov-btn gov-btn-primary w-full sm:w-auto" onClick={calculate} disabled={loading}>
               {loading ? "Processing..." : "Submit & Calculate"}
             </button>
-            <button className="gov-btn gov-btn-secondary" onClick={handleReset}>
+            <button className="gov-btn gov-btn-secondary w-full sm:w-auto" onClick={handleReset}>
               Reset Form
             </button>
           </div>
@@ -236,7 +236,7 @@ export default function StampDuty() {
       </div>
 
       {/* RIGHT COLUMN: MAP & RESULTS */}
-      <div className="gov-calc-sidebar">
+      <div className="gov-calc-sidebar w-full">
         {/* RESULT CARD */}
         {result && (
           <div className="gov-card result-box">
@@ -245,14 +245,14 @@ export default function StampDuty() {
               <p>Financial Year: 2025-26</p>
             </div>
 
-            <div className="result-grid">
-              <div className="result-item">
-                <span className="result-label">Base Guideline Rate</span>
-                <span className="result-value">₹{result.ratePerUnit.toLocaleString()}</span>
+            <div className="result-grid grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <div className="result-item p-4 border border-gray-300 rounded bg-white flex flex-col">
+                <span className="result-label text-xs text-gray-500 mb-2 uppercase">Base Guideline Rate</span>
+                <span className="result-value text-lg md:text-xl font-bold">₹{result.ratePerUnit.toLocaleString()}</span>
               </div>
-              <div className="result-item">
-                <span className="result-label">Assessed Property Value</span>
-                <span className="result-value highlight">₹{result.propertyValue.toLocaleString()}</span>
+              <div className="result-item p-4 border border-gray-300 rounded bg-white flex flex-col">
+                <span className="result-label text-xs text-gray-500 mb-2 uppercase">Assessed Property Value</span>
+                <span className="result-value highlight text-lg md:text-xl font-bold text-[#003366]">₹{result.propertyValue.toLocaleString()}</span>
               </div>
             </div>
 
@@ -267,16 +267,16 @@ export default function StampDuty() {
               </div>
             </div>
 
-            <div className="result-total">
-              <span>Total Payable Amount</span>
-              <span className="total-amount">₹{result.totalPayableAmount.toLocaleString()}</span>
+            <div className="result-total bg-[#003366] text-white p-4 md:p-5 rounded flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-2 sm:gap-0">
+              <span className="text-base font-semibold">Total Payable Amount</span>
+              <span className="total-amount text-2xl md:text-3xl font-bold">₹{result.totalPayableAmount.toLocaleString()}</span>
             </div>
 
-            <div className="result-actions">
-              <button className="gov-btn gov-btn-outline" onClick={handlePrint}>
+            <div className="result-actions flex flex-col sm:flex-row gap-3">
+              <button className="gov-btn gov-btn-outline w-full sm:w-auto" onClick={handlePrint}>
                 🖨 Print Certificate
               </button>
-              <button className="gov-btn gov-btn-outline" onClick={handlePrint}>
+              <button className="gov-btn gov-btn-outline w-full sm:w-auto" onClick={handlePrint}>
                 ⬇ Download PDF
               </button>
             </div>
@@ -285,12 +285,12 @@ export default function StampDuty() {
 
         {/* MAP PORTAL */}
         <div className="gov-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div className="gov-map-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="gov-map-header bg-[#1f2937] text-white p-4 flex flex-col xs:flex-row justify-between items-start xs:items-center gap-3 xs:gap-0">
             <div>
-              <h3>Geographic Information System (GIS)</h3>
-              <p>Selected Parcel: <strong>{selectedLocationName}</strong></p>
+              <h3 className="m-0 text-base">Geographic Information System (GIS)</h3>
+              <p className="m-0 text-sm text-gray-300">Selected Parcel: <strong>{selectedLocationName}</strong></p>
             </div>
-            <div className="map-view-toggle">
+            <div className="map-view-toggle flex mt-2 xs:mt-0">
               <button
                 onClick={() => setMapStyle('normal')}
                 style={{

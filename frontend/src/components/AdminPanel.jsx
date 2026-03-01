@@ -25,37 +25,30 @@ export default function AdminPanel() {
     };
 
     return (
-        <div className="container" style={{ marginTop: '20px' }}>
-            <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <h2 className="page-title" style={{ color: '#b91c1c' }}>Admin Control Panel</h2>
-                <hr className="divider" />
+        <div className="container mt-5 w-full max-w-2xl mx-auto px-4">
+            <div className="card w-full bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
+                <div className="p-4 border-b border-gray-200 bg-gray-50">
+                    <h2 className="page-title text-xl font-bold text-[#b91c1c] m-0">Admin Control Panel</h2>
+                </div>
 
-                <div style={{ padding: '20px', backgroundColor: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px' }}>
-                    <h3 style={{ color: '#991b1b', marginBottom: '10px' }}>Update Guideline Rates</h3>
-                    <p style={{ marginBottom: '15px' }}>
-                        Trigger the backend parser to read the uploaded Madhya Pradesh Guideline PDF (FY 2025-26)
-                        and populate the PostgreSQL database.
+                <div className="p-5 bg-[#fef2f2] border-t border-[#fecaca]">
+                    <h3 className="text-[#991b1b] font-bold mb-3 text-lg">Update Guideline Rates</h3>
+                    <p className="mb-4 text-gray-700 text-sm md:text-base leading-relaxed">
+                        Trigger the backend parse engine to read the uploaded Madhya Pradesh Guideline PDF (FY 2025-26)
+                        and populate the PostgreSQL/SQLite database.
                     </p>
                     <button
                         onClick={handleParse}
                         disabled={loading}
-                        style={{
-                            backgroundColor: loading ? '#ef4444' : '#b91c1c',
-                            color: 'white',
-                            padding: '12px 24px',
-                            border: 'none',
-                            borderRadius: '6px',
-                            cursor: loading ? 'not-allowed' : 'pointer',
-                            fontWeight: 'bold',
-                            width: '100%'
-                        }}
+                        className={`w-full py-3 px-6 rounded-md font-bold text-white transition-colors duration-200 ${loading ? 'bg-red-500 cursor-not-allowed opacity-80' : 'bg-[#b91c1c] hover:bg-red-800'
+                            }`}
                     >
                         {loading ? "Parsing 251 pages... Please wait" : "Trigger Database Seed from PDF"}
                     </button>
 
                     {message && (
-                        <div style={{ marginTop: '15px', padding: '10px', backgroundColor: 'white', border: '1px solid #ddd', borderRadius: '4px' }}>
-                            <strong>Result:</strong> {message}
+                        <div className="mt-4 p-3 bg-white border border-gray-300 rounded text-sm text-gray-800 shadow-inner">
+                            <strong className="text-black">Result:</strong> {message}
                         </div>
                     )}
                 </div>
