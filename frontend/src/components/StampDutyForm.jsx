@@ -12,7 +12,8 @@ function MapRecenter({ lat, lng }) {
   return null;
 }
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const rawAPI = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API = rawAPI.replace(/\/$/, "");
 
 export default function StampDuty() {
   const [form, setForm] = useState({

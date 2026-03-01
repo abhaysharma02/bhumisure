@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const rawAPI = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API = rawAPI.replace(/\/$/, "");
 
 export default function AdminPanel() {
     const [loading, setLoading] = useState(false);
@@ -31,7 +32,7 @@ export default function AdminPanel() {
             const data = await res.json();
 
             if (data.success) {
-                setMessage(`Success: ${data.message} (${data.rows_inserted} rows inserted)`);
+                setMessage(`Success: ${data.message} (${data.rows_inserted} inserted, ${data.rows_skipped || 0} skipped)`);
                 setFile(null); // Clear file after success
                 document.getElementById('csv-upload').value = '';
             } else {

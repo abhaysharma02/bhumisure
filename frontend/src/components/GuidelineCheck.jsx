@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const rawAPI = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API = rawAPI.replace(/\/$/, "");
 
 export default function GuidelineCheck() {
     const [guidelines, setGuidelines] = useState([]);

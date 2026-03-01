@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./StampDutyForm.css"; // Reuse existing css styles
 
-const API = "http://localhost:4000";
+const rawAPI = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API = rawAPI.replace(/\/$/, "");
 
 export default function CompareTool() {
     const [wards, setWards] = useState([]);
