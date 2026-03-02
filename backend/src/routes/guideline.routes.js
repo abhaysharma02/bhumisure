@@ -23,6 +23,7 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
     const BATCH_SIZE = 500;
     let insertedRows = 0;
     let skippedRows = 0;
+    let firstRowKeys = [];
 
     // Create a robust function to parse integers, handling empty or invalid data
     const parseRate = (val) => {
@@ -35,6 +36,10 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
     fs.createReadStream(req.file.path)
         .pipe(csv())
         .on("data", (data) => {
+            if (firstRowKeys.length === 0) {
+                firstRowKeys = Object.keys(data).map(k => k.trim().toLowerCase());
+            }
+
             // Trim keys based on potential BOM or spaces in header names
             const row = {};
             for (let key in data) {
@@ -102,9 +107,10 @@ router.post("/import-guidelines", upload.single("file"), async (req, res) => {
 
                 return res.status(200).json({
                     success: true,
-                    message: "CSV imported successfully.",
+                    message: insertedRows === 0 ? "No rows were inserted. Please check your CSV column names." : "CSV imported successfully.",
                     rows_inserted: insertedRows,
-                    rows_skipped: skippedRows
+                    rows_skipped: skippedRows,
+                    detected_headers: firstRowKeys
                 });
             } catch (err) {
                 console.error("CSV Import Error:", err);

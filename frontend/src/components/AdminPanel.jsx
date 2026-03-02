@@ -32,9 +32,13 @@ export default function AdminPanel() {
             const data = await res.json();
 
             if (data.success) {
-                setMessage(`Success: ${data.message} (${data.rows_inserted} inserted, ${data.rows_skipped || 0} skipped)`);
-                setFile(null); // Clear file after success
-                document.getElementById('csv-upload').value = '';
+                if (data.rows_inserted === 0 && data.detected_headers) {
+                    setMessage(`Failed! 0 rows inserted. Your CSV headers: [${data.detected_headers.join(", ")}]. Expected: [city, ward, location]`);
+                } else {
+                    setMessage(`Success: ${data.message} (${data.rows_inserted} inserted, ${data.rows_skipped || 0} skipped)`);
+                    setFile(null); // Clear file after success
+                    document.getElementById('csv-upload').value = '';
+                }
             } else {
                 setMessage(`Error: ${data.message} ${data.error ? `- ${data.error}` : ''}`);
             }
