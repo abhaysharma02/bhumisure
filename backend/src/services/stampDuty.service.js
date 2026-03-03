@@ -30,7 +30,7 @@ const calculateStampDuty = async ({
   }
 
   // 1. Fetch rates
-  const { rows } = await pool.query("SELECT * FROM rates WHERE location_id = $1", [location_id]);
+  const { rows } = await pool.query("SELECT * FROM rates WHERE id = $1", [location_id]);
   const rates = rows[0];
 
   if (!rates) {
@@ -38,7 +38,17 @@ const calculateStampDuty = async ({
   }
 
   // 2. Identify the rate based on property type selected
-  const ratePerUnit = Number(rates[propertyType]);
+  const columnMap = {
+    "residential_plot_rate": "plot_residential",
+    "commercial_plot_rate": "plot_commercial",
+    "industrial_rate": "plot_industrial",
+    "multi_storey_res_rate": "building_rcc", // fallback mapping if needed
+    "agricultural_irrigated_rate": "agri_irrigated",
+    "agricultural_non_irrigated_rate": "agri_unirrigated",
+  };
+  const dbColumnToUse = columnMap[propertyType] || propertyType;
+
+  const ratePerUnit = Number(rates[dbColumnToUse]);
   if (!ratePerUnit) {
     throw new Error(`Invalid property type or rate unavailable for ${propertyType}`);
   }

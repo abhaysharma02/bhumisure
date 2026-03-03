@@ -27,13 +27,14 @@ export default function StampDuty() {
 
   const [wards, setWards] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
 
   // Default coordinate (Gwalior)
   const [mapCenter, setMapCenter] = useState([26.2183, 78.1828]);
-  const [selectedLocationName, setSelectedLocationName] = useState("District Gwalior");
+  const [selectedLocationName, setSelectedLocationName] = useState("Location Selected");
   const [mapStyle, setMapStyle] = useState("satellite");
 
   function handleChange(e) {
@@ -41,14 +42,15 @@ export default function StampDuty() {
     setForm({ ...form, [name]: value });
 
     if (name === "ward_id") {
+      // With the new structure, we rely mostly on location search, but keep ward for completeness
       setForm((prev) => ({ ...prev, location_id: "" }));
       setResult(null);
     }
 
     if (name === "location_id" && value) {
-      const selectedLoc = locations.find(loc => loc.id === parseInt(value));
+      const selectedLoc = locations.find(loc => loc.id === parseInt(value) || loc.id === value);
       if (selectedLoc) {
-        setSelectedLocationName(selectedLoc.locality_name);
+        setSelectedLocationName(selectedLoc.location);
         const rLat = 26.2183 + (Math.random() - 0.5) * 0.05;
         const rLng = 78.1828 + (Math.random() - 0.5) * 0.05;
         setMapCenter([rLat, rLng]);
@@ -67,7 +69,7 @@ export default function StampDuty() {
     setResult(null);
     setError("");
     setMapCenter([26.2183, 78.1828]);
-    setSelectedLocationName("District Gwalior");
+    setSelectedLocationName("Location Selected");
   }
 
   useEffect(() => {
@@ -82,17 +84,34 @@ export default function StampDuty() {
   }, []);
 
   useEffect(() => {
-    if (!form.ward_id) {
-      setLocations([]);
-      return;
-    }
-    fetch(`${API}/api/locations?ward_id=${form.ward_id}`)
-      .then(r => r.json())
-      .then(d => {
-        if (d.success) setLocations(d.data);
-      })
-      .catch(err => console.error("Error fetching locations:", err));
-  }, [form.ward_id]);
+    const timer = setTimeout(() => {
+      let url = `${API}/api/rates?`;
+
+      if (form.ward_id) {
+        url += `ward=${encodeURIComponent(form.ward_id)}&`;
+      }
+
+      if (searchTerm) {
+        url += `location=${encodeURIComponent(searchTerm)}`;
+      }
+
+      // If user hasn't typed anything and hasn't selected a ward, just fetch some defaults
+      if (!searchTerm && !form.ward_id) {
+        return setLocations([]);
+      }
+
+      fetch(url)
+        .then(r => r.json())
+        .then(d => {
+          if (d.success) {
+            setLocations(d.data);
+          }
+        })
+        .catch(err => console.error("Error fetching locations:", err));
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm, form.ward_id]);
 
   function calculate() {
     if (!form.location_id || !form.propertyType || !form.area) {
@@ -151,9 +170,9 @@ export default function StampDuty() {
                 <label>{t('wardLbl')} <span className="req">*</span></label>
                 <select name="ward_id" value={form.ward_id} onChange={handleChange}>
                   <option value="">{t('wardPlaceholder')}</option>
-                  {wards.map(w => (
-                    <option key={w.id} value={w.id}>
-                      {w.ward_number} - {w.tehsil}
+                  {wards.map((w, index) => (
+                    <option key={index} value={w.ward}>
+                      {w.ward}
                     </option>
                   ))}
                 </select>
@@ -161,11 +180,18 @@ export default function StampDuty() {
               </div>
               <div className="gov-form-group">
                 <label>{t('locLbl')} <span className="req">*</span></label>
-                <select name="location_id" value={form.location_id} onChange={handleChange} disabled={!form.ward_id}>
+                <input
+                  type="text"
+                  placeholder="Search Location (e.g. A.B. Road)"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="mb-2 p-2 border border-gray-300 rounded w-full"
+                />
+                <select name="location_id" value={form.location_id} onChange={handleChange} disabled={locations.length === 0}>
                   <option value="">{t('locPlaceholder')}</option>
                   {locations.map(loc => (
                     <option key={loc.id} value={loc.id}>
-                      {loc.locality_name}
+                      {loc.location} (Ward: {loc.ward})
                     </option>
                   ))}
                 </select>

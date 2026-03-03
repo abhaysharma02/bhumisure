@@ -5,7 +5,10 @@ const stampDutyRoutes = require("./routes/stampDuty.routes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:5173", "https://vercel.app", "https://render.com", /\.vercel\.app$/, /\.render\.com$/],
+  credentials: true
+}));
 app.use(express.json());
 
 // connect database
@@ -13,7 +16,6 @@ connectDB();
 
 app.use("/api/stamp-duty", stampDutyRoutes);
 app.use("/api", require("./routes/location.routes"));
-app.use("/api", require("./routes/guideline.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
 
 app.get("/", (req, res) => {

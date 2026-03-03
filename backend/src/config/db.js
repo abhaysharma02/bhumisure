@@ -14,6 +14,32 @@ const connectDB = async () => {
     // Enable foreign keys
     await dbInstance.run('PRAGMA foreign_keys = ON');
 
+    // Create rates table if not exists as requested by user
+    await dbInstance.run(`
+      CREATE TABLE IF NOT EXISTS rates (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        city TEXT,
+        ward TEXT,
+        location TEXT,
+        plot_residential INTEGER,
+        plot_commercial INTEGER,
+        plot_industrial INTEGER,
+        building_rcc INTEGER,
+        building_rbc INTEGER,
+        building_tin INTEGER,
+        shop INTEGER,
+        office INTEGER,
+        godown INTEGER,
+        agri_irrigated INTEGER,
+        agri_unirrigated INTEGER,
+        year INTEGER
+      )
+    `);
+
+    // Add indexes for fast search
+    await dbInstance.run(`CREATE INDEX IF NOT EXISTS idx_location ON rates(location)`);
+    await dbInstance.run(`CREATE INDEX IF NOT EXISTS idx_ward ON rates(ward)`);
+
     console.log('✅ SQLite Connected successfully');
   } catch (error) {
     console.error('❌ SQLite connection failed', error.message);
